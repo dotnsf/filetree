@@ -1,0 +1,88 @@
+swagger: '2.0'
+info:
+  description: FileTree API ドキュメント
+  version: 0.0.1
+  title: GHaC REST APIs
+host: localhost:8080
+basePath: /api
+tags:
+  - name: filetree
+    description: FileTree APIs
+schemes:
+  - http
+  - https
+paths:
+  /tree:
+    get:
+      tags:
+        - filestree
+      summary: 一覧取得
+      description: ファイル／フォルダ一覧取得
+      produces:
+        - application/json
+      parameters:
+        - name: folderpath
+          type: string
+          in: query
+          description: 親パス名
+          required: true
+        - name: filter
+          type: string
+          in: query
+          description: 検索フィルタ
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+    post:
+      tags:
+        - filetree
+      summary: 追加
+      description: ファイル／フォルダ追加
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/CreateRequest'
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+    delete:
+      tags:
+        - filetree
+      summary: 削除
+      description: ファイル／フォルダ削除
+      produces:
+        - application/json
+      parameters:
+        - name: path
+          type: string
+          in: query
+          description: パス名
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+definitions:
+  CreateRequest:
+    type: object
+    properties:
+      folderpath:
+        type: string
+        description: 親フォルダ名
+      name:
+        type: string
+        description: 名前
+      data:
+        type: string
+        description: ファイル内容
+      folder:
+        type: integer
+        description: フォルダ
